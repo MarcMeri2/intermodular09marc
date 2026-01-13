@@ -4,23 +4,23 @@ on:
     branches:
       - main
 jobs:
-  ModificaRepositoriGithubAmbGithubActions_ElTeuNom:
+  ModificaRepositoriGithubAmbGithubActions_marc:
     runs-on: ubuntu-latest
-    permissions: # para poder modificar el contenido del repositorio
+    permissions:
       contents: write
     steps:
       - uses: actions/checkout@v6
 
       - name: Modifica fitxer md
         run: |
-          echo -e "- ${{ github.actor }} modifica el repo ${{ github.repository }} : "`date`"\n" >> README.md
+          echo "- ${{ github.actor }} ha modificat el repo ${{ github.repository }} : $(date)" >> README.md
 
-      - name: Modifica fitxer index.html
+      - name: Modifica div en index.html
         run: |
           git pull origin main
-          sed -i 's|</body>|<!-- Contenido modificado por Github Actions -->\n</body>|' index.html
+          sed -i '/<ul>/a \ \ \ \ \ \ <li>Contingut modificat per Github Actions</li>' index.html
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git add README.md index.html
-          git commit -m "Añadido contenido a README.md y modificado index.html"
+          git commit -m "Actualitzat README.md i modificat div en index.html"
           git push
